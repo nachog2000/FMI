@@ -72,3 +72,11 @@ puedenZafar = filter $ elem "Petroleo". recursosNaturales
 totalDeudaFMI :: [Pais] -> Float
 totalDeudaFMI = sum. map deudaConFMIEnMillonesDeDolares
 
+-- 5)
+
+recetaOrdenada :: Pais -> [Receta] -> Bool
+recetaOrdenada pais [receta] = True
+recetaOrdenada  pais (receta1:receta2:recetas) = aplicarPBI receta1 pais < aplicarPBI receta2 pais && recetaOrdenada pais (receta2:recetas)
+
+aplicarPBI :: Receta -> Pais -> Float
+aplicarPBI receta = pbi.aplicarReceta receta
