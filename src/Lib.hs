@@ -3,7 +3,7 @@ import Text.Show.Functions
 
 laVerdad = True
 
-
+type Receta = [Pais -> Pais]
 -- 1)
 
 data Pais = UnPais {
@@ -26,7 +26,7 @@ namibia = UnPais {
 --  2)
 
 fmiPrestaMillonesDeDolares :: Float -> Pais -> Pais
-fmiPrestaMillonesDeDolares deuda pais = pais {deudaConFMIEnMillonesDeDolares = deuda * 1.5} 
+fmiPrestaMillonesDeDolares deuda pais = pais {deudaConFMIEnMillonesDeDolares = deudaConFMIEnMillonesDeDolares pais +  deuda * 1.5} 
 
 
 reducirIngresosPublicos :: Int -> Pais -> Pais
@@ -54,3 +54,19 @@ pbi :: Pais -> Float
 pbi pais = ingresoPerCapitaEnDolares pais * fromIntegral (poblacionActiva pais)
 poblacionActiva :: Pais -> Int
 poblacionActiva pais = poblacionActivaSectorPrivado pais + poblacionActivaSectorPrivado pais
+
+
+-- 3)
+
+receta :: Receta
+receta = [fmiPrestaMillonesDeDolares 200, explotacionDeRecursosNaturales "Mineria"]
+
+
+-- 4)
+puedenZafar :: [Pais] -> [Pais]
+puedenZafar = filter $ elem "Petroleo". recursosNaturales
+
+totalDeudaFMI :: [Pais] -> Float
+totalDeudaFMI = sum. map deudaConFMIEnMillonesDeDolares
+
+
