@@ -23,7 +23,7 @@ namibia = UnPais {
     deudaConFMIEnMillonesDeDolares = 50
 }
 
--- 2)
+--  2)
 
 fmiPrestaMillonesDeDolares :: Float -> Pais -> Pais
 fmiPrestaMillonesDeDolares deuda pais = pais {deudaConFMIEnMillonesDeDolares = deuda * 1.5} 
