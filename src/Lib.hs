@@ -61,6 +61,9 @@ poblacionActiva pais = poblacionActivaSectorPrivado pais + poblacionActivaSector
 receta :: Receta
 receta = [fmiPrestaMillonesDeDolares 200, explotacionDeRecursosNaturales "Mineria"]
 
+aplicarReceta :: Receta -> Pais -> Pais
+aplicarReceta receta pais = foldr ($) pais receta
+
 
 -- 4)
 puedenZafar :: [Pais] -> [Pais]
@@ -68,5 +71,4 @@ puedenZafar = filter $ elem "Petroleo". recursosNaturales
 
 totalDeudaFMI :: [Pais] -> Float
 totalDeudaFMI = sum. map deudaConFMIEnMillonesDeDolares
-
 
