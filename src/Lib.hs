@@ -11,7 +11,7 @@ data Pais = UnPais {
     poblacionActivaSectorPublico :: Int,
     poblacionActivaSectorPrivado :: Int,
     recursosNaturales :: [String],
-    deudaConFMIEnMillonesDeDolares :: Int
+    deudaConFMIEnMillonesDeDolares :: Float
 }deriving (Show)
 
 namibia :: Pais
@@ -22,3 +22,35 @@ namibia = UnPais {
     recursosNaturales = ["Mineria","Ecoturismo"],
     deudaConFMIEnMillonesDeDolares = 50
 }
+
+-- 2)
+
+fmiPrestaMillonesDeDolares :: Float -> Pais -> Pais
+fmiPrestaMillonesDeDolares deuda pais = pais {deudaConFMIEnMillonesDeDolares = deuda * 1.5} 
+
+
+reducirIngresosPublicos :: Int -> Pais -> Pais
+reducirIngresosPublicos cant pais = pais {
+    poblacionActivaSectorPublico =  poblacionActivaSectorPublico pais - cant,
+    ingresoPerCapitaEnDolares = ingresoPerCapitaEnDolares pais - ingresoPerCapitaEnDolares pais * disminuirIngresoPerCapita cant                                        
+    }
+disminuirIngresoPerCapita :: Int -> Float
+disminuirIngresoPerCapita cantidadPuestos 
+ | cantidadPuestos > 100 = 0.2
+ | otherwise = 0.15
+
+explotacionDeRecursosNaturales :: String -> Pais -> Pais
+explotacionDeRecursosNaturales recurso  =  disminuirDeudaFMI . (dejarSinRecursosNaturales recurso)
+dejarSinRecursosNaturales :: String -> Pais -> Pais   
+dejarSinRecursosNaturales recurso pais = pais {recursosNaturales = filter (/=recurso) (recursosNaturales pais)}
+disminuirDeudaFMI :: Pais -> Pais
+disminuirDeudaFMI pais = pais {deudaConFMIEnMillonesDeDolares = deudaConFMIEnMillonesDeDolares pais - 2}
+
+blindaje :: Pais -> Pais
+blindaje pais = (fmiPrestaMillonesDeDolares (pbi pais * 0.5) . reducirIngresosPublicos 500) pais
+
+
+pbi :: Pais -> Float
+pbi pais = ingresoPerCapitaEnDolares pais * fromIntegral (poblacionActiva pais)
+poblacionActiva :: Pais -> Int
+poblacionActiva pais = poblacionActivaSectorPrivado pais + poblacionActivaSectorPrivado pais
