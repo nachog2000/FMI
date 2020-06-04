@@ -80,3 +80,16 @@ recetaOrdenada  pais (receta1:receta2:recetas) = aplicarPBI receta1 pais < aplic
 
 aplicarPBI :: Receta -> Pais -> Float
 aplicarPBI receta = pbi.aplicarReceta receta
+
+
+-- 6) 
+recursosNaturalesInfinitos :: [String]
+recursosNaturalesInfinitos = "Energia" : recursosNaturalesInfinitos
+
+pruebaInfinita1 = puedenZafar [namibia, UnPais 1 1 1 recursosNaturalesInfinitos 1]
+-- Esta funcion no termina nunca porque tiene que evaluar todos los elementos de la lista, y como es infinita
+-- no termina nunca.
+
+pruebaInfinita2 = totalDeudaFMI [namibia, UnPais 1 1 1 recursosNaturalesInfinitos 1]
+-- Esta funcion sí devuelve un valor porque solo evalua la deuda con el FMI que es solo un numero y no una 
+-- lista infinita.
